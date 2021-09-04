@@ -1,0 +1,43 @@
+version: '3'
+services:
+    db:
+            container_name: psql
+            image: postgres:9.6
+            volumes:
+              - postgres_data:/var/lib/postgresql/data/
+            restart: on-failure
+            environment:
+             - POSTGRES_DB=accountdb
+             - POSTGRES_USER=accountuser
+             - POSTGRES_PASSWORD=accountpass
+            ports:
+             - 5431:5432
+
+    web:
+       build: .
+       expose:
+        - 8000
+       command: gunicorn balance.wsgi:application --bind 0.0.0.0:8000
+
+       volumes:
+         - ./balance/:/usr/src/app
+       environment:
+         - DB_HOST=db
+         - DB_NAME=accountdb
+         - DB_USER=accountuser
+         - DB_PASSWORD=accountpass
+       restart: on-failure
+       depends_on:
+         - db
+
+    nginx:
+      build: ./nginx
+      ports:
+        - 1300:80
+      depends_on:
+        - web
+      restart: on-failure
+
+
+volumes:
+  postgres_data:
