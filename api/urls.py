@@ -7,6 +7,6 @@ urlpatterns = [
     path('ping/', AccountPingApi.as_view(), name='ping'),
     path('add/', AccountAddApi.as_view(), name='add_money'),
     path('substract/', AccountSubstractBalanceApi.as_view(), name='substract_money'),
-    path('status/<str:uuid>', AccountStatusApi.as_view(), name='balance')
+    path('status/<str:uuid>/', AccountStatusApi.as_view(), name='balance')
 
 ]

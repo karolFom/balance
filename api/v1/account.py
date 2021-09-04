@@ -17,7 +17,7 @@ class AccountAddApi(APIView):
         data = None
         try:
             data = request.data
-            added_money = data['add']
+            added_money = data['money']
             uuid = data['uuid']
             account: BankAccount = BankAccount.objects.get(uuid=str(uuid))
             account.current_balance += int(added_money)
