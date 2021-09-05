@@ -1,15 +1,20 @@
 from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView
 from api.models import BankAccount
 from api.helpers.api_response import ApiResponse
+from api.serializers.serializer import BankAccountSerializer
 
 
-class AccountPingApi(APIView):
-    def get(self, request):
-        try:
-            response = BankAccount.objects.all()
-            return ApiResponse.responseSuccess(data=response)
-        except Exception as e:
-            return ApiResponse.responseError(message=str(e))
+class AccountPingApi(ListAPIView):
+    serializer_class = BankAccountSerializer
+
+    def get_queryset(self):
+        return BankAccount.objects.all()
+        # try:
+        #     response = BankAccount.objects.all()
+        #     return ApiResponse.responseSuccess(data=response)
+        # except Exception as e:
+        #     return ApiResponse.responseError(message=str(e))
 
 
 class AccountAddApi(APIView):
@@ -35,7 +40,12 @@ class AccountStatusApi(APIView):
                 status = 'Открыт'
             else:
                 status = 'Закрыт'
-            return ApiResponse.responseSuccess(data=status)
+
+            data = {
+                'current_balance': account.current_balance,
+                'status': status
+            }
+            return ApiResponse.responseSuccess(data=data)
         except Exception as e:
             return ApiResponse.responseError(message=str(e))
 

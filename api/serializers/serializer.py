@@ -4,5 +4,5 @@ from api.models import BankAccount
 
 class BankAccountSerializer(serializers.ModelSerializer):
     class Meta:
-        models = BankAccount
+        model = BankAccount
         fields = '__all__'
