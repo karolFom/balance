@@ -127,5 +127,5 @@ USE_TZ = False
 STATIC_URL = '/static/'
 
 CRONJOBS = [
-    ('*/10 * * * *', 'python manage.py substract_hold')
+    ('*/10 * * * *', 'django.api.management.substract_hold')
 ]
