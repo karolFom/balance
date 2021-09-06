@@ -25,11 +25,11 @@ class AccountAddApi(APIView):
         data = None
         try:
             data = request.data
-            added_money = data['money']
+            added_money = int(data['money'])
             uuid = data['uuid']
             account = BankAccount.objects.get(uuid=str(uuid))
-            current_balance = account.current_balance + int(added_money)
-            account.update(current_balance=current_balance)
+            account.current_balance += added_money
+            account.save()
             return ApiResponse.responseSuccess(data=data)
         except Exception as e:
             return ApiResponse.responseError(message=str(e), data=data)
@@ -57,9 +57,9 @@ class AccountSubstractBalanceApi(APIView):
             uuid = data['uuid']
             account = BankAccount.objects.get(uuid=str(uuid))
             if self.check_if_possible(account, money):
-                current_balance = account.current_balance - money
-                hold = account.hold + money
-                account.update(current_balance=current_balance, hold=hold)
+                account.current_balance -= money
+                account.hold += money
+                account.save()
                 return ApiResponse.responseSuccess(data=data)
             else:
                 return ApiResponse.responseError(data=data, message=f'You dont have enough money '

@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+
 from api.models import BankAccount
 
 
@@ -7,7 +8,8 @@ class Command(BaseCommand):
         try:
             accounts = BankAccount.objects.all()
             for account in accounts:
-                current_balance = account.current_balance - account.hold
-                account.update(current_balance=current_balance, hold=0)
+                account.current_balance -= account.hold
+                account.hold = 0
+            BankAccount.objects.bulk_update(accounts, ['current_balance', 'hold'])
         except Exception as e:
             pass
