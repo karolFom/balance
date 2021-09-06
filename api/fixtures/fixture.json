@@ -1,0 +1,46 @@
+[
+  {
+    "model": "api.BankAccount",
+    "pk": 1,
+    "fields": {
+      "uuid": "26c940a1-7228-4ea2-a3bc-e6460b172040",
+      "full_name": "Петров Иван Сергеевич",
+      "current_balance": 1700,
+      "hold": 300,
+      "account_status": 1
+    }
+  },
+  {
+    "model": "api.BankAccount",
+    "pk": 2,
+    "fields": {
+      "uuid": "7badc8f8-65bc-449a-8cde-855234ac63e1",
+      "full_name": "Kazitsky Jason",
+      "current_balance": 200,
+      "hold": 200,
+      "account_status": 1
+    }
+  },
+  {
+    "model": "api.BankAccount",
+    "pk": 3,
+    "fields": {
+      "uuid": "5597cc3d-c948-48a0-b711-393edf20d9c0",
+      "full_name": "Пархоменко Антон Александрович",
+      "current_balance": 10,
+      "hold": 300,
+      "account_status": 1
+    }
+  },
+  {
+    "model": "api.BankAccount",
+    "pk": 4,
+    "fields": {
+      "uuid": "867f0924-a917-4711-939b-90b79a96392",
+      "full_name": "Петечкин Петр Измаилович",
+      "current_balance": 1000000,
+      "hold": 1,
+      "account_status": 0
+    }
+  }
+]
