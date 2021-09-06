@@ -10,11 +10,13 @@ class AccountPingApi(ListAPIView):
 
     def get_queryset(self):
         return BankAccount.objects.all()
-        # try:
-        #     response = BankAccount.objects.all()
-        #     return ApiResponse.responseSuccess(data=response)
-        # except Exception as e:
-        #     return ApiResponse.responseError(message=str(e))
+
+    def list(self, request, *args, **kwargs):
+        try:
+            res = super(AccountPingApi, self).list(request, *args, **kwargs)
+            return ApiResponse.responseSuccess(data=res.data)
+        except Exception as e:
+            return ApiResponse.responseError(message=str(e))
 
 
 class AccountAddApi(APIView):
