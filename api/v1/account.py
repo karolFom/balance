@@ -27,9 +27,9 @@ class AccountAddApi(APIView):
             data = request.data
             added_money = data['money']
             uuid = data['uuid']
-            account: BankAccount = BankAccount.objects.get(uuid=str(uuid))
-            account.current_balance += int(added_money)
-            account.save()
+            account = BankAccount.objects.get(uuid=str(uuid))
+            current_balance = account.current_balance + int(added_money)
+            account.update(current_balance=current_balance)
             return ApiResponse.responseSuccess(data=data)
         except Exception as e:
             return ApiResponse.responseError(message=str(e), data=data)
@@ -39,11 +39,7 @@ class AccountStatusApi(APIView):
     def get(self, request, uuid):
         try:
             account: BankAccount = BankAccount.objects.get(uuid=str(uuid))
-            if account.account_status is True:
-                status = 'Открыт'
-            else:
-                status = 'Закрыт'
-
+            status = 'Открыт' if account.account_status else status = 'Закрыт'
             data = {
                 'current_balance': account.current_balance,
                 'status': status
@@ -57,13 +53,13 @@ class AccountSubstractBalanceApi(APIView):
     def post(self, request):
         try:
             data = request.data
-            money = data['money']
+            money = int(data['money'])
             uuid = data['uuid']
-            account: BankAccount = BankAccount.objects.get(uuid=str(uuid))
+            account = BankAccount.objects.get(uuid=str(uuid))
             if self.check_if_possible(account, money):
-                account.current_balance -= money
-                account.hold += money
-                account.save()
+                current_balance = account.current_balance - money
+                hold = account.hold + money
+                account.update(current_balance=current_balance, hold=hold)
                 return ApiResponse.responseSuccess(data=data)
             else:
                 return ApiResponse.responseError(data=data, message=f'You dont have enough money '
