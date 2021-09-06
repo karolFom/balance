@@ -7,8 +7,7 @@ class Command(BaseCommand):
         try:
             accounts = BankAccount.objects.all()
             for account in accounts:
-                account.current_balance -= account.hold
-                account.hold = 0
-                account.save()
+                current_balance = account.current_balance - account.hold
+                account.update(current_balance=current_balance, hold=0)
         except Exception as e:
             pass

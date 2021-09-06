@@ -1,5 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
+
 from api.models import BankAccount
 from api.helpers.api_response import ApiResponse
 from api.serializers.serializer import BankAccountSerializer
@@ -65,8 +66,9 @@ class AccountSubstractBalanceApi(APIView):
                 account.save()
                 return ApiResponse.responseSuccess(data=data)
             else:
-                return ApiResponse.responseError(data=data, message=f'You dont have enough money to substract, '
-                                                                    f'account: {account}')
+                return ApiResponse.responseError(data=data, message=f'You dont have enough money '
+                                                                    f'to substract, account: '
+                                                                    f'{account}')
         except Exception as e:
             return ApiResponse.responseError(message=str(e))
 
